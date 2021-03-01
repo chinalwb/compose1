@@ -8,7 +8,7 @@
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
 
-This is a sample application for demostrating puppies adoption. It allows users to browse the puppies and see their details, also mark as favorite if they like. Built based on Compose.
+This is a sample application for demostrating puppies adoption. It allows users to browse the puppies and see the pet's details, and they can mark pets as favorite if they like. App is completely built based on Jetpack Compose.
 
 
 
@@ -16,7 +16,7 @@ This is a sample application for demostrating puppies adoption. It allows users 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
 
-I build the app after reading part of the Compose Pathways. I like it because it is concious, very clear, but the most important part is the `Reusability` of `Composable`. Compose is brand new but it is pretty cool. I can foresee in the future more and more developers will dive into and be crazy for it.
+I build the app after reading part of the Compose Pathways. I like it because it is concise, very clear, but the most important part is the `Reusability` of `Composable`. Compose is brand new but it is pretty cool. I can foresee in the future more and more developers will dive into and be crazy for it.
 
 <!--- What are you especially proud of? -->
 
