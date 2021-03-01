@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge
 
 import androidx.annotation.DrawableRes
@@ -5,6 +20,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class Puppy(
+    val id: Int,
     val name: String,
     val age: String,
     val gender: String,
@@ -15,9 +31,24 @@ data class Puppy(
 
 object PuppyRepo {
     fun getPuppies(): List<Puppy> = puppies
+    fun getPuppy(id: Int) = puppies.find {
+        it.id == id
+    } ?: p0
+    const val selectedPuppyId = 0
 }
 
+private val p0 = Puppy(
+    id = 0,
+    name = "xx",
+    age = "0 year",
+    gender = "xx",
+    desc = "Error",
+    imageId = R.drawable.ic_launcher_background,
+    tags = setOf("xx", "yy")
+)
+
 private val p1 = Puppy(
+    id = 1,
     name = "Bella",
     age = "1 year",
     gender = "male",
@@ -27,6 +58,7 @@ private val p1 = Puppy(
 )
 
 private val p2 = Puppy(
+    id = 2,
     name = "Charlie",
     age = "1 year",
     gender = "male",
@@ -36,6 +68,7 @@ private val p2 = Puppy(
 )
 
 private val p3 = Puppy(
+    id = 3,
     name = "Luna",
     age = "6 months",
     gender = "female",
@@ -44,8 +77,8 @@ private val p3 = Puppy(
     tags = setOf("Beautiful", "Cute")
 )
 
-
 private val p4 = Puppy(
+    id = 4,
     name = "Lucy",
     age = "1 year",
     gender = "male",
@@ -54,8 +87,8 @@ private val p4 = Puppy(
     tags = setOf("Beautiful", "Cute")
 )
 
-
 private val p5 = Puppy(
+    id = 5,
     name = "Max",
     age = "2 years",
     gender = "male",
@@ -65,6 +98,7 @@ private val p5 = Puppy(
 )
 
 private val p6 = Puppy(
+    id = 6,
     name = "Bailey",
     age = "9 months",
     gender = "male",
@@ -73,8 +107,8 @@ private val p6 = Puppy(
     tags = setOf("Beautiful", "Cute")
 )
 
-
 private val p7 = Puppy(
+    id = 7,
     name = "Cooper",
     age = "1 year",
     gender = "male",
@@ -83,8 +117,8 @@ private val p7 = Puppy(
     tags = setOf("Beautiful", "Cute")
 )
 
-
 private val p8 = Puppy(
+    id = 8,
     name = "Daisy",
     age = "1 year",
     gender = "male",
@@ -93,8 +127,8 @@ private val p8 = Puppy(
     tags = setOf("Beautiful", "Cute")
 )
 
-
 private val p9 = Puppy(
+    id = 9,
     name = "Lucy",
     age = "1 year",
     gender = "female",

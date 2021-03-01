@@ -18,61 +18,85 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Pets
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.UI_25
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                MyApp()
+                val selectedPuppyId = remember { mutableStateOf(PuppyRepo.selectedPuppyId) }
+
+                ShowPuppiesList(selectedPuppyId)
             }
         }
     }
 }
 
-// Start building your app here!
 @Composable
-fun MyApp() {
-    Scaffold(
-        topBar = { AppBar() }
-    ) {
-        PuppyList()
-    }
-}
+private fun ShowPuppiesList(selectedPuppyId: MutableState<Int>) {
+    val puppy = PuppyRepo.getPuppy(selectedPuppyId.value)
 
-@Composable
-private fun AppBar() {
-    TopAppBar(
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Rounded.Pets,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 12.dp)
-            )
-        },
-        title = {
-            Text(text = stringResource(R.string.app_name))
-        },
-        backgroundColor = MaterialTheme.colors.primarySurface
-    )
+    val icon = if (puppy.id < 1) Icons.Rounded.Pets else Icons.Rounded.ArrowBack
+    val title = if (puppy.id < 1) stringResource(R.string.app_name) else puppy.name
+    val onIconClick: (() -> Unit) = if (puppy.id < 1) ({}) else (
+        {
+            selectedPuppyId.value = 0
+        }
+        )
+
+    val actions: @Composable RowScope.() -> Unit = if (puppy.id < 1) {
+        {}
+    } else {
+        {
+            var isSelected by remember(calculation = { mutableStateOf(false) })
+            val iconColor by animateColorAsState(if (isSelected) Color.White else UI_25)
+            IconButton(onClick = { isSelected = !isSelected }) {
+                Icon(Icons.Filled.Favorite, contentDescription = null, tint = iconColor)
+            }
+        }
+    }
+    MyApp(
+        icon = icon,
+        onIconClick = onIconClick,
+        title = title,
+        actions = actions
+    ) {
+        if (selectedPuppyId.value < 1) {
+            PuppyList { clickedPuppyId ->
+                selectedPuppyId.value = clickedPuppyId
+            }
+        } else {
+            PuppyDetails(puppy = puppy)
+        }
+    }
 }
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
     MyTheme {
-        MyApp()
+        val selectedPuppyId = remember { mutableStateOf(PuppyRepo.selectedPuppyId) }
+
+        ShowPuppiesList(selectedPuppyId)
     }
 }
 
@@ -80,6 +104,8 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        MyApp()
+        val selectedPuppyId = remember { mutableStateOf(PuppyRepo.selectedPuppyId) }
+
+        ShowPuppiesList(selectedPuppyId)
     }
 }
